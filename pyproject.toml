@@ -1,0 +1,64 @@
+[project]
+name = "sqlite-orm"
+version = "0.1.0"
+description = "Package with custom ORM for SQLite"
+requires-python = ">=3.12"
+dependencies = [
+    "asyncio>=4.0.0",
+    "aiosqlite>=0.22.1",
+    "aiofiles>=25.1.0",
+]
+
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.5.0",
+    "ruff>=0.14.8",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "B", # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+    "ARG", # flake8-unused-arguments
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+    "PTH", # flake8-use-pathlib
+    "RUF", # ruff-specific rules
+]
+ignore = [
+    "E501", # line too long (handled by formatter)
+    "B008", # do not perform function calls in argument defaults (needed for FastAPI Depends)
+    "RUF001", # allow cyrillic in print statements
+    "RUF002", # allow cyrillic in docstrings (Russian project)
+    "RUF003", # allow cyrillic in comments (Russian project)
+    "ARG002", # unused method arguments (common in FastAPI with Depends)
+    "ARG001", # unused function arguments (common in FastAPI with Depends)
+    "ARG004", # unused static method arguments (common in FastAPI with Depends)
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+lines-between-types = 1
+no-lines-before = ["future", "standard-library"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # unused imports in __init__.py
+"migrations/**/*.py" = ["ARG", "RUF"]  # less strict for migrations
